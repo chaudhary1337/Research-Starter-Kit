@@ -199,6 +199,52 @@ Check out [rmate](https://github.com/randy3k/RemoteSubl). Note that this can ope
 ### File Managers
 Most file managers such as Nautilus (the default Gnome one) have an option to browse files over a network connection. Making use of this by using `ssh://user@ada` and bookmarking your home folder is a particularly useful file management technique. 
 
+### (Another Method) Jupyter Notebook
+This is another method to use Jupyter on ADA, which feels easier for me.
+
+Step 1: Add the following function in your machine's .rc file.
+```bash
+# $1 = my port. ex: 1337
+# $2 = ada machine port. ex: 9000
+# $3 = gnode number. ex: gnode42
+function jptt() {
+	ssh -N -f -L localhost:"$1":localhost:"$2" -J chaudhary@ada chaudhary@"$3"
+}
+```
+
+Step 2: Add the following to your ada machine's rc file.
+```bash
+# starts jupyter notebook at port supplied
+function jpt(){
+	jupyter notebook --no-browser --port=$1
+}
+```
+
+Step 3: Run `source .zshrc` or whatever .rc you have, on both the above machines. Only need to do this once. 
+
+Step 4: Run `jpt YYYY` on ada.
+```bash
+(base) chaudhary@gnode03:~$ jpt 9000
+{lots of blah blah}
+```
+
+
+Step 5: Run `jptt XXXX YYYY gnodeZZ` on your machine.
+```bash
+➜  ~ jptt 1337 9000 gnode03
+chaudhary@ada's password: 
+chaudhary@gnode03's password: 
+```
+It should ask for your password twice.
+
+Step 6: Open `localhost:1337` on your own machine. 
+
+![](https://i.imgur.com/desVeKn.png)
+
+Once the above shows, follow the steps given, or ones mentioned above in this README.
+
+[My Source](https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/)
+
 --------------------------------------------------------------------------
 
 ## To-Do
